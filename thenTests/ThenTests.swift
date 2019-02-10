@@ -28,7 +28,7 @@ class ThenTests: XCTestCase {
         }.finally {
             finallyExpectation.fulfill()
         }
-        waitForExpectations(timeout: 0.3, handler: nil)
+        waitForExpectations(timeout: 0.4, handler: nil)
     }
     
     func testChainedPromises() {

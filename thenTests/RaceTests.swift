@@ -42,6 +42,7 @@ class RaceTests: XCTestCase {
     }
     
     struct TestRaceError: Error {}
+    struct UnknownRaceError: Error {}
     
     func testAsyncRaceWithFirsFailingFails() {
         let e = expectation(description: "")
@@ -76,16 +77,110 @@ class RaceTests: XCTestCase {
         waitForExpectations(timeout: 0.3, handler: nil)
     }
     
-//    func testRaceFailsIfAllFail() {
-//        let e = expectation(description: "")
-//        let p1 = Promise<String>.reject()
-//        let p2 = Promise<String>.reject()
-//        Promises.race(p1, p2).then { _ in
-//            XCTFail("testRaceFailsIfAllFail failed")
-//        }.onError { _ in
-//            e.fulfill()
-//        }
-//        waitForExpectations(timeout: 0.3, handler: nil)
-//    }
+    
+    func testSyncRelayRaceSucceedsIfFirstSecceeds() {
+        let e = expectation(description: "")
+        let p1 = Promise("1")
+        let p2 = Promise<String>()
+        
+        Promises.relayRace(p1, p2).then { s in
+            XCTAssertEqual(s, "1")
+            e.fulfill()
+        }
+        
+        waitForExpectations(timeout: 0.3, handler: nil)
+    }
+    
+    func testSyncRelayRaceFailsIfAllFials() {
+        let e = expectation(description: "")
+        let p1 = Promise<String>.reject(TestRaceError())
+        let p2 = Promise<String>.reject(TestRaceError())
+        
+        Promises.relayRace(p1, p2).onError { (error) in
+            guard error as? TestRaceError != nil else {
+                XCTFail("testRecoverCanThrowANewError failed")
+                return
+            }
+            e.fulfill()
+        }
+        
+        waitForExpectations(timeout: 0.3, handler: nil)
+    }
+    
+    func testSyncRelayRaceSucceedsIfLastSucceeds() {
+        let e = expectation(description: "")
+        let p1 = Promise<String>.reject(TestRaceError())
+        let p2 = Promise("2")
+        
+        Promises.relayRace(p1, p2).then { s in
+            XCTAssertEqual(s, "2")
+            e.fulfill()
+        }
+        
+        waitForExpectations(timeout: 0.3, handler: nil)
+    }
+    
+    
+    func testAsyncReplayRaceSucceedsIfFirstSucceeds() {
+        let e = expectation(description: "")
+        let p1 = Promise<String> { r, _ in
+            waitTime(0.2) {
+                r("1")
+            }
+        }
+        let p2 = Promise("2")
+        
+        Promises.relayRace(p1, p2).then { s in
+            XCTAssertEqual(s, "1")
+            e.fulfill()
+        }
+        
+        waitForExpectations(timeout: 0.3, handler: nil)
+    }
+    
+    func testAsyncRelayRaceFailsIfAllFails() {
+        let e = expectation(description: "")
+        let p1 = Promise<String> { _, r in
+            waitTime(0.1) {
+                r(UnknownRaceError())
+            }
+        }
+        let p2 = Promise<String> { _, r in
+            waitTime(0.1) {
+                r(TestRaceError())
+            }
+        }
+        
+        Promises.relayRace(p1, p2).onError { (error) in
+            guard error as? TestRaceError != nil else {
+                XCTFail("testRecoverCanThrowANewError failed")
+                return
+            }
+            e.fulfill()
+        }
+        
+        waitForExpectations(timeout: 0.35, handler: nil)
+    }
+    
+    func testAsyncRelayRaceSucceedsIfLastSucceeds() {
+        let e = expectation(description: "")
+        let p1 = Promise<String> { _, r in
+            waitTime(0.1) {
+                r(TestRaceError())
+            }
+        }
+        let p2 = Promise<String> { r, _ in
+            waitTime(0.1) {
+                r("2")
+            }
+        }
+        
+        Promises.relayRace(p1, p2).then { s in
+            XCTAssertEqual(s, "2")
+            e.fulfill()
+        }
+        
+        waitForExpectations(timeout: 0.3, handler: nil)
+    }
     
 }

@@ -23,4 +23,25 @@ extension Promises {
             }
         }
     }
+    
+    public static func relayRace<T>(_ promises: Promise<T>...) -> Promise<T> {
+        return Promise { resolve, reject in
+            var promises = promises // Mutable copy
+          
+            func startNext(promise: Promise<T> ) {
+                promise.then { t in
+                    resolve(t)
+                }.onError { error in
+                    guard promises.count > 0 else {
+                        reject(error)
+                        return
+                    }
+                    startNext(promise: promises.removeFirst())
+                }
+
+            }
+            
+            startNext(promise: promises.removeFirst())
+        }
+    }
 }
