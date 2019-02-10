@@ -24,6 +24,9 @@ extension Promises {
         }
     }
     
+    /// `Promise.relayRace(p1, p2, p3, p4...)` and executes the promises in order until one succeeds.
+    /// If the last promise fails, the returned promise fail.
+    /// Once a promise is fulfilled, the remaining promises are NOT executed. 
     public static func relayRace<T>(_ promises: Promise<T>...) -> Promise<T> {
         return Promise { resolve, reject in
             var promises = promises // Mutable copy
