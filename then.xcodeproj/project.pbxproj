@@ -115,6 +115,8 @@
 		99B9FA8F1E5F107400D522C8 /* FinallyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B9FA8E1E5F107400D522C8 /* FinallyTests.swift */; };
 		99FA7FB61D93C153002274B0 /* thenMacOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 99FA7FB41D93C153002274B0 /* thenMacOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		99FC63811C86085C008C1155 /* then.h in Headers */ = {isa = PBXBuildFile; fileRef = 99FC637E1C86085C008C1155 /* then.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E16E7ADC2225BFFB00A52723 /* Promise+ResolveOn.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16E7ADB2225BFFB00A52723 /* Promise+ResolveOn.swift */; };
+		E16E7ADE2225C19D00A52723 /* ResolveOnTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16E7ADD2225C19D00A52723 /* ResolveOnTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -190,6 +192,8 @@
 		99FC637C1C86085C008C1155 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		99FC637D1C86085C008C1155 /* Promise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Promise.swift; sourceTree = "<group>"; };
 		99FC637E1C86085C008C1155 /* then.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = then.h; sourceTree = "<group>"; };
+		E16E7ADB2225BFFB00A52723 /* Promise+ResolveOn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Promise+ResolveOn.swift"; sourceTree = "<group>"; };
+		E16E7ADD2225C19D00A52723 /* ResolveOnTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolveOnTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -268,6 +272,7 @@
 			isa = PBXGroup;
 			children = (
 				99B5ACA61C66831C005CDA28 /* ThenTests.swift */,
+				E16E7ADD2225C19D00A52723 /* ResolveOnTests.swift */,
 				9962ADC91D585E12005769CD /* RegisterThenTests.swift */,
 				9962ADC11D585902005769CD /* ProgressTests.swift */,
 				9962ADC71D585B00005769CD /* OnErrorTests.swift */,
@@ -344,6 +349,7 @@
 				9907A5E41E76FC7C00826BBE /* Async.swift */,
 				9907A5E61E76FC8200826BBE /* Await.swift */,
 				996FBD9020BEE6CD00858D4A /* Await+Operators.swift */,
+				E16E7ADB2225BFFB00A52723 /* Promise+ResolveOn.swift */,
 				99FC637E1C86085C008C1155 /* then.h */,
 			);
 			path = Source;
@@ -598,6 +604,7 @@
 				99329EBE1FA7259D0020347F /* Promise+Then.swift in Sources */,
 				99329EBF1FA7259D0020347F /* Promise+Error.swift in Sources */,
 				99329EC01FA7259D0020347F /* Promise+Finally.swift in Sources */,
+				E16E7ADC2225BFFB00A52723 /* Promise+ResolveOn.swift in Sources */,
 				99329EC11FA7259D0020347F /* Promise+Aliases.swift in Sources */,
 				99329EC21FA7259D0020347F /* Promise+Helpers.swift in Sources */,
 				99329EC31FA7259D0020347F /* Promise+Retry.swift in Sources */,
@@ -640,6 +647,7 @@
 				991E16C11F3AFEF700BC997F /* MemoryTests.swift in Sources */,
 				998C51C41E7DBB530088DEBC /* UnwrapTests.swift in Sources */,
 				9962ADC41D5859CC005769CD /* WhenAllTests.swift in Sources */,
+				E16E7ADE2225C19D00A52723 /* ResolveOnTests.swift in Sources */,
 				9962ADC61D585A06005769CD /* Helpers.swift in Sources */,
 				9907A5ED1E76FD5800826BBE /* AsyncAwaitTests.swift in Sources */,
 			);
