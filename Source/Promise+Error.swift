@@ -16,7 +16,8 @@ public extension Promise {
     }
     
     @discardableResult public func registerOnError(_ block: @escaping (Error) -> Void) -> Promise<Void> {
-        let p = Promise<Void>()
+        let p = Promise<Void>(from: self)
+       
         passAlongFirstPromiseStartFunctionAndStateTo(p)
         syncStateWithCallBacks(
             success: { _ in

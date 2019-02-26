@@ -60,6 +60,8 @@ public class Promise<T> {
         lockQueue.async(execute: action)
     }
     
+    public var keepBlocks: Bool = false
+    
     // MARK: - Intializers
     
     public init() {
@@ -93,6 +95,11 @@ public class Promise<T> {
         }
     }
     
+    internal convenience init<X>(from otherPromise: Promise<X>) {
+        self.init()
+        self.keepBlocks = otherPromise.keepBlocks
+    }
+    
     // MARK: - Private atomic operations
     
     private func _updateFirstPromiseStartFunctionAndState(from startBody: @escaping () -> Void, isStarted: Bool) {
@@ -107,11 +114,11 @@ public class Promise<T> {
     public func start() {
         _synchronize({ return _start() })?()
     }
-
+    
     public func fulfill(_ value: T) {
-        _synchronize({ () -> (() -> Void)? in 
+        _synchronize({ () -> (() -> Void)? in
             let action = _updateState(.fulfilled(value: value))
-            threadUnsafeBlocks = .init()
+            resetBlocksIfNeeded()
             promiseProgressCallBack = nil
             return action
         })?()
@@ -122,7 +129,7 @@ public class Promise<T> {
             let action = _updateState(.rejected(error: anError))
             // Only release callbacks if no retries a registered.
             if numberOfRetries == 0 {
-                threadUnsafeBlocks = .init()
+                resetBlocksIfNeeded()
                 promiseProgressCallBack = nil
             }
             return action
@@ -130,6 +137,12 @@ public class Promise<T> {
     }
     
     // MARK: - Internal interfaces
+    
+    internal func resetBlocksIfNeeded() {
+        if keepBlocks == false {
+            threadUnsafeBlocks = .init()
+        }
+    }
     
     internal func synchronize<U>(
         _ action: (_ currentState: PromiseState<T>, _ blocks: inout PromiseBlocks<T>) -> U) -> U {
@@ -173,7 +186,7 @@ public class Promise<T> {
     }
     
     internal func newLinkedPromise() -> Promise<T> {
-        let p = Promise<T>()
+        let p = Promise<T>(from: self)
         passAlongFirstPromiseStartFunctionAndStateTo(p)
         return p
     }
@@ -217,6 +230,13 @@ public class Promise<T> {
     }
     
     private func _updateState(_ newState: PromiseState<T>) -> (() -> Void)? {
+        // If we are instructed to keep the blocks, we should always change state.
+        guard keepBlocks == false else {
+            threadUnsafeState = newState
+            return launchCallbacksIfNeeded()
+        }
+        
+        // Otherwise we only change state if we are penging or dormant
         if threadUnsafeState.isPendingOrDormant {
             threadUnsafeState = newState
         }

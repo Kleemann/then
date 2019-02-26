@@ -117,6 +117,10 @@
 		99FC63811C86085C008C1155 /* then.h in Headers */ = {isa = PBXBuildFile; fileRef = 99FC637E1C86085C008C1155 /* then.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E16E7ADC2225BFFB00A52723 /* Promise+ResolveOn.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16E7ADB2225BFFB00A52723 /* Promise+ResolveOn.swift */; };
 		E16E7ADE2225C19D00A52723 /* ResolveOnTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16E7ADD2225C19D00A52723 /* ResolveOnTests.swift */; };
+		E1C8B2E022103B9E00BD9C92 /* NotifyingPromise.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C8B2DF22103B9E00BD9C92 /* NotifyingPromise.swift */; };
+		E1C8B2E122103BB000BD9C92 /* NotifyingPromise.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C8B2DF22103B9E00BD9C92 /* NotifyingPromise.swift */; };
+		E1C8B2E222103BB100BD9C92 /* NotifyingPromise.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C8B2DF22103B9E00BD9C92 /* NotifyingPromise.swift */; };
+		E1C8B2E422103BD900BD9C92 /* NotifyingPromiseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C8B2E322103BD900BD9C92 /* NotifyingPromiseTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -194,6 +198,8 @@
 		99FC637E1C86085C008C1155 /* then.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = then.h; sourceTree = "<group>"; };
 		E16E7ADB2225BFFB00A52723 /* Promise+ResolveOn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Promise+ResolveOn.swift"; sourceTree = "<group>"; };
 		E16E7ADD2225C19D00A52723 /* ResolveOnTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolveOnTests.swift; sourceTree = "<group>"; };
+		E1C8B2DF22103B9E00BD9C92 /* NotifyingPromise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotifyingPromise.swift; sourceTree = "<group>"; };
+		E1C8B2E322103BD900BD9C92 /* NotifyingPromiseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotifyingPromiseTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -272,6 +278,7 @@
 			isa = PBXGroup;
 			children = (
 				99B5ACA61C66831C005CDA28 /* ThenTests.swift */,
+				E1C8B2E322103BD900BD9C92 /* NotifyingPromiseTests.swift */,
 				E16E7ADD2225C19D00A52723 /* ResolveOnTests.swift */,
 				9962ADC91D585E12005769CD /* RegisterThenTests.swift */,
 				9962ADC11D585902005769CD /* ProgressTests.swift */,
@@ -325,6 +332,7 @@
 				99ED26A41F7BB6C6007D9FBB /* VoidPromise.swift */,
 				99E3CB061E5EA53900FEF11A /* PromiseError.swift */,
 				99FC637D1C86085C008C1155 /* Promise.swift */,
+				E1C8B2DF22103B9E00BD9C92 /* NotifyingPromise.swift */,
 				99255A4C1DC119B500D9FC72 /* PromiseBlocks.swift */,
 				99FA2C671E5B1C2F00CA3959 /* Promise+Progress.swift */,
 				99FA2C6F1E5B212900CA3959 /* Promise+Then.swift */,
@@ -579,6 +587,7 @@
 				99329EFA1FA725B30020347F /* Promise+Chain.swift in Sources */,
 				997949CA202220A200F4D964 /* Promise+nil.swift in Sources */,
 				99329EFB1FA725B30020347F /* Promise+NoMatterWhat.swift in Sources */,
+				E1C8B2E222103BB100BD9C92 /* NotifyingPromise.swift in Sources */,
 				99329EFC1FA725B30020347F /* Promise+Unwrap.swift in Sources */,
 				99329EFD1FA725B30020347F /* Promise+Delay.swift in Sources */,
 				99329EFE1FA725B30020347F /* Promise+Timeout.swift in Sources */,
@@ -615,6 +624,7 @@
 				99329EC81FA7259D0020347F /* Promise+Chain.swift in Sources */,
 				997949C620221FAA00F4D964 /* Promise+nil.swift in Sources */,
 				99329EC91FA7259D0020347F /* Promise+NoMatterWhat.swift in Sources */,
+				E1C8B2E022103B9E00BD9C92 /* NotifyingPromise.swift in Sources */,
 				99329ECA1FA7259D0020347F /* Promise+Unwrap.swift in Sources */,
 				99329ECB1FA7259D0020347F /* Promise+Delay.swift in Sources */,
 				99329ECC1FA7259D0020347F /* Promise+Timeout.swift in Sources */,
@@ -639,6 +649,7 @@
 				991E16C51F3B486900BC997F /* DelayTests.swift in Sources */,
 				99B29F771E5D590D00CF8E98 /* RecoverTests.swift in Sources */,
 				9962ADCA1D585E12005769CD /* RegisterThenTests.swift in Sources */,
+				E1C8B2E422103BD900BD9C92 /* NotifyingPromiseTests.swift in Sources */,
 				99B29F7F1E5D688900CF8E98 /* RaceTests.swift in Sources */,
 				9962ADC81D585B00005769CD /* OnErrorTests.swift in Sources */,
 				99B29F831E5D6F5500CF8E98 /* RetryTests.swift in Sources */,
@@ -678,6 +689,7 @@
 				99329EE11FA725A80020347F /* Promise+Chain.swift in Sources */,
 				997949C9202220A100F4D964 /* Promise+nil.swift in Sources */,
 				99329EE21FA725A80020347F /* Promise+NoMatterWhat.swift in Sources */,
+				E1C8B2E122103BB000BD9C92 /* NotifyingPromise.swift in Sources */,
 				99329EE31FA725A80020347F /* Promise+Unwrap.swift in Sources */,
 				99329EE41FA725A80020347F /* Promise+Delay.swift in Sources */,
 				99329EE51FA725A80020347F /* Promise+Timeout.swift in Sources */,

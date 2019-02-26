@@ -17,8 +17,8 @@ public extension Promise {
     }
     
     @discardableResult public func registerThen<X>(_ block: @escaping (T) -> X) -> Promise<X> {
-        let p = Promise<X>()
-        
+        let p = Promise<X>(from: self)
+       
         synchronize { state, blocks in
             switch state {
             case let .fulfilled(value):
@@ -49,8 +49,8 @@ public extension Promise {
     
     @discardableResult  public func registerThen<X>(_ block: @escaping (T) -> Promise<X>)
         -> Promise<X> {
-            let p = Promise<X>()
-            
+            let p = Promise<X>(from: self)
+        
             synchronize { state, blocks in
                 switch state {
                 case let .fulfilled(value):
