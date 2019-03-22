@@ -1,5 +1,5 @@
 //
-//  NotifyingPromiseTests.swift
+//  ObservingPromiseTests.swift
 //  thenTests
 //
 //  Created by Mads Kleemann on 10/02/2019.
@@ -9,23 +9,23 @@
 import XCTest
 @testable import then
 
-class NotifyingPromiseTests: XCTestCase {
+class ObservingPromiseTests: XCTestCase {
     
     override func setUp() { super.setUp() }
     override func tearDown() { super.tearDown() }
     
-    struct NotifyingPromiseTestError: Error {}
+    struct ObservingPromiseTestError: Error {}
     
-    func testNotifyingPromiseKeepsBlocksIsSetToTrue() {
-        let p = NotifyingPromise<Int>()
+    func testObservingPromiseKeepsBlocksIsSetToTrue() {
+        let p = ObservingPromise<Int>()
         XCTAssertEqual(p.keepBlocks, true)
     }
     
-    func testNotifyingPromiseCanSucceedMultipleTimes() {
+    func testObservingPromiseCanSucceedMultipleTimes() {
         let e1 = expectation(description: "")
         let e2 = expectation(description: "")
         
-        let p = NotifyingPromise<Int>()
+        let p = ObservingPromise<Int>()
   
         waitTime(0.1) {
             p.fulfill(1)
@@ -50,11 +50,11 @@ class NotifyingPromiseTests: XCTestCase {
         }
     }
     
-    func testNotifyingPromiseCanSucceedAndFail() {
+    func testObservingPromiseCanSucceedAndFail() {
         let e1 = expectation(description: "")
         let e2 = expectation(description: "")
         
-        let p = NotifyingPromise<Int>()
+        let p = ObservingPromise<Int>()
         
         waitTime(0.1) {
             p.fulfill(1)
@@ -80,18 +80,18 @@ class NotifyingPromiseTests: XCTestCase {
         }
     }
     
-    func testNotifyingPromiseCanSucceedAndFailAndSucceed() {
+    func testObservingPromiseCanSucceedAndFailAndSucceed() {
         let e1 = expectation(description: "")
         let e2 = expectation(description: "")
         let e3 = expectation(description: "")
         
-        let p = NotifyingPromise<Int>()
+        let p = ObservingPromise<Int>()
         
         waitTime(0.1) {
             p.fulfill(1)
         }
         waitTime(0.2) {
-            p.reject(NotifyingPromiseTestError())
+            p.reject(ObservingPromiseTestError())
         }
         waitTime(0.3) {
             p.fulfill(2)
@@ -109,7 +109,7 @@ class NotifyingPromiseTests: XCTestCase {
             
         }.onError { (error) in
             numberOfCallsToOnError += 1
-            guard error as? NotifyingPromiseTestError != nil else {
+            guard error as? ObservingPromiseTestError != nil else {
                 XCTFail("testRecoverCanThrowANewError failed")
                 return
             }
@@ -124,14 +124,14 @@ class NotifyingPromiseTests: XCTestCase {
     }
     
     
-    func testNotifyingPromiseCanFailAndSucceed() {
+    func testObservingPromiseCanFailAndSucceed() {
         let e1 = expectation(description: "")
         let e2 = expectation(description: "")
         
-        let p = NotifyingPromise<Int>()
+        let p = ObservingPromise<Int>()
         
         waitTime(0.1) {
-            p.reject(NotifyingPromiseTestError())
+            p.reject(ObservingPromiseTestError())
         }
         
         waitTime(0.2) {
@@ -152,5 +152,42 @@ class NotifyingPromiseTests: XCTestCase {
             XCTAssertEqual(numberOfCallsToThen, 1)
             XCTAssertEqual(numberOfCallsToOnError, 1)
         }
+    }
+    
+    func testObservingPromiseSucceedsOnMainThreadMultipleTimes() {
+        let e1 = expectation(description: "")
+        let e2 = expectation(description: "")
+        
+        let p = ObservingPromise<Int>()
+        
+        waitTime(0.1) {
+            p.fulfill(1)
+        }
+        
+        waitTime(0.2) {
+            p.fulfill(2)
+        }
+        
+        var numberOfCallsToThen = 0
+        
+        p.resolveOn(.main)
+        .then { result in
+            guard Thread.isMainThread else {
+                XCTFail("Promise not resolved on main thread")
+                return
+            }
+            
+            numberOfCallsToThen += 1
+            
+            if result == 1 {
+                e1.fulfill()
+            } else if result == 2 {
+                e2.fulfill()
+            }
+        }
+        
+        waitForExpectations(timeout: 0.3, handler: { (error) in
+            XCTAssertEqual(numberOfCallsToThen, 2)
+        })
     }
 }

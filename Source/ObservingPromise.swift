@@ -1,5 +1,5 @@
 //
-//  NotifyingPromise.swift
+//  ObservingPromise.swift
 //  then
 //
 //  Created by Mads Kleemann on 10/02/2019.
@@ -9,7 +9,7 @@
 import Foundation
 
 /// A promise that keeps the fulfilment and rejection blocks around after either or both is called.
-public class NotifyingPromise<T>: Promise<T> {
+public class ObservingPromise<T>: Promise<T> {
     
     private var _keepBlocks = true
     public override var keepBlocks: Bool {
