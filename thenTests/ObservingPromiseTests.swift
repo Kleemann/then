@@ -190,4 +190,34 @@ class ObservingPromiseTests: XCTestCase {
             XCTAssertEqual(numberOfCallsToThen, 2)
         })
     }
+    
+    func testObservingPromiseCanFailAndSucceedWithVoid() {
+        let e1 = expectation(description: "")
+        let e2 = expectation(description: "")
+        
+        let p = ObservingPromise<Void>()
+        
+        waitTime(0.1) {
+            p.reject(ObservingPromiseTestError())
+        }
+        
+        waitTime(0.2) {
+            p.fulfill(())
+        }
+        var numberOfCallsToThen = 0
+        var numberOfCallsToOnError = 0
+        p.then { _ in
+            numberOfCallsToThen += 1
+            e1.fulfill()
+            }.onError { (_) in
+                numberOfCallsToOnError += 1
+                e2.fulfill()
+        }
+        
+        waitForExpectations(timeout: 0.3) { (error) in
+            XCTAssertEqual(p.keepBlocks, true)
+            XCTAssertEqual(numberOfCallsToThen, 1)
+            XCTAssertEqual(numberOfCallsToOnError, 1)
+        }
+    }
 }
