@@ -17,6 +17,12 @@ private class Locker {
         lockQueue = DispatchQueue(label: "com.freshOS.then.lockQueue", qos: .userInitiated)
         lockQueue.setSpecific(key: lockQueueSpecificKey, value: ())
     }
+    
+    init(queue: DispatchQueue) {
+        lockQueueSpecificKey = DispatchSpecificKey<Void>()
+        lockQueue = queue
+        lockQueue.setSpecific(key: lockQueueSpecificKey, value: ())
+    }
   
     var isOnLockQueue: Bool {
         return DispatchQueue.getSpecific(key: lockQueueSpecificKey) != nil
@@ -44,7 +50,7 @@ public class Promise<T> {
     
     // MARK: - Lock
   
-    private let locker = Locker()
+    private var locker = Locker()
     private var lockQueue: DispatchQueue {
         return locker.lockQueue
     }
@@ -98,6 +104,7 @@ public class Promise<T> {
     internal convenience init<X>(from otherPromise: Promise<X>) {
         self.init()
         self.keepBlocks = otherPromise.keepBlocks
+        self.locker = otherPromise.locker
     }
     
     // MARK: - Private atomic operations
@@ -172,7 +179,9 @@ public class Promise<T> {
                 _start()
             ]
         }
-        actions.forEach { $0?() }
+        //lockQueue.sync {
+            actions.forEach { $0?() }
+        //}
     }
     
     internal func updateState(_ newState: PromiseState<T>) {
@@ -186,9 +195,22 @@ public class Promise<T> {
     }
     
     internal func newLinkedPromise() -> Promise<T> {
-        let p = Promise<T>(from: self)
-        passAlongFirstPromiseStartFunctionAndStateTo(p)
-        return p
+        return _synchronize({ () -> Promise<T> in
+            let p = Promise<T>(from: self)
+            passAlongFirstPromiseStartFunctionAndStateTo(p)
+            return p
+        })
+        
+    }
+    
+    // Creates a new promise that runs on a specified queue
+    internal func newLinkedPromise(withQueue queue: DispatchQueue) -> Promise<T> {
+        return _synchronize { () -> Promise<T> in
+            let p = Promise<T>(from: self)
+            p.locker = Locker(queue: queue)
+            passAlongFirstPromiseStartFunctionAndStateTo(p)
+            return p
+        }
     }
     
     internal func syncStateWithCallBacks(success: @escaping ((T) -> Void),

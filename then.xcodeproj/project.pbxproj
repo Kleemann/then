@@ -115,6 +115,7 @@
 		99B9FA8F1E5F107400D522C8 /* FinallyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99B9FA8E1E5F107400D522C8 /* FinallyTests.swift */; };
 		99FA7FB61D93C153002274B0 /* thenMacOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 99FA7FB41D93C153002274B0 /* thenMacOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		99FC63811C86085C008C1155 /* then.h in Headers */ = {isa = PBXBuildFile; fileRef = 99FC637E1C86085C008C1155 /* then.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E11FD0F52259151E00F596C4 /* RunOnTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11FD0F42259151E00F596C4 /* RunOnTests.swift */; };
 		E16E7ADC2225BFFB00A52723 /* Promise+ResolveOn.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16E7ADB2225BFFB00A52723 /* Promise+ResolveOn.swift */; };
 		E16E7ADE2225C19D00A52723 /* ResolveOnTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16E7ADD2225C19D00A52723 /* ResolveOnTests.swift */; };
 		E1C8B2E022103B9E00BD9C92 /* ObservingPromise.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C8B2DF22103B9E00BD9C92 /* ObservingPromise.swift */; };
@@ -196,6 +197,7 @@
 		99FC637C1C86085C008C1155 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		99FC637D1C86085C008C1155 /* Promise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Promise.swift; sourceTree = "<group>"; };
 		99FC637E1C86085C008C1155 /* then.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = then.h; sourceTree = "<group>"; };
+		E11FD0F42259151E00F596C4 /* RunOnTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunOnTests.swift; sourceTree = "<group>"; };
 		E16E7ADB2225BFFB00A52723 /* Promise+ResolveOn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Promise+ResolveOn.swift"; sourceTree = "<group>"; };
 		E16E7ADD2225C19D00A52723 /* ResolveOnTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolveOnTests.swift; sourceTree = "<group>"; };
 		E1C8B2DF22103B9E00BD9C92 /* ObservingPromise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservingPromise.swift; sourceTree = "<group>"; };
@@ -279,6 +281,7 @@
 			children = (
 				99B5ACA61C66831C005CDA28 /* ThenTests.swift */,
 				E1C8B2E322103BD900BD9C92 /* ObservingPromiseTests.swift */,
+				E11FD0F42259151E00F596C4 /* RunOnTests.swift */,
 				E16E7ADD2225C19D00A52723 /* ResolveOnTests.swift */,
 				9962ADC91D585E12005769CD /* RegisterThenTests.swift */,
 				9962ADC11D585902005769CD /* ProgressTests.swift */,
@@ -649,6 +652,7 @@
 				991E16C91F3C45F000BC997F /* ZipTests.swift in Sources */,
 				991E16C51F3B486900BC997F /* DelayTests.swift in Sources */,
 				99B29F771E5D590D00CF8E98 /* RecoverTests.swift in Sources */,
+				E11FD0F52259151E00F596C4 /* RunOnTests.swift in Sources */,
 				9962ADCA1D585E12005769CD /* RegisterThenTests.swift in Sources */,
 				E1C8B2E422103BD900BD9C92 /* ObservingPromiseTests.swift in Sources */,
 				99B29F7F1E5D688900CF8E98 /* RaceTests.swift in Sources */,

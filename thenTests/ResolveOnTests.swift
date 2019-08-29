@@ -71,7 +71,7 @@ class ResolveOnTests: XCTestCase {
         let p = Promise<Int>()
         
         waitTime(0.1) {
-            DispatchQueue.global(qos: .background).async {
+            DispatchQueue.main.async {
                 p.fulfill(1)
             }
             
@@ -80,6 +80,7 @@ class ResolveOnTests: XCTestCase {
         let queue = DispatchQueue(label: label, qos: .background, attributes: .concurrent, autoreleaseFrequency: .inherit, target: nil)
         p.resolveOn(queue)
             .then { _ in
+                print(Thread.current.threadName)
                 if Thread.current.threadName == label {
                     e.fulfill()
                     return

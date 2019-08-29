@@ -26,3 +26,12 @@ extension Promise {
         return p
     }
 }
+
+
+extension Promise {
+    public func runOn(_ queue: DispatchQueue) -> Promise<T> {
+        let p = newLinkedPromise(withQueue: queue)
+        
+        return p
+    }
+}
